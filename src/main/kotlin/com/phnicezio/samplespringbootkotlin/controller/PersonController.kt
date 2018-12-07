@@ -15,7 +15,7 @@ import javax.validation.Valid
  */
 @RestController
 @RequestMapping("/persons")
-class PersonController(val service: PersonService) {
+class PersonController(private val service: PersonService) {
 
     @GetMapping
     fun findAll() = service.findAll()

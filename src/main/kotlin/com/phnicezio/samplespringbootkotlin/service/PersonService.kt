@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service
  *
  */
 @Service
-class PersonService(val repository: PersonRepository) {
+class PersonService(private val repository: PersonRepository) {
 
     fun findAll() = repository.findAll().toList()
 
