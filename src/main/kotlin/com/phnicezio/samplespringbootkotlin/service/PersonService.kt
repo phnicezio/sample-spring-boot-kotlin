@@ -14,12 +14,11 @@ import org.springframework.stereotype.Service
 @Service
 class PersonService(val repository: PersonRepository) {
 
-    fun findAll(): MutableIterable<Person> = repository.findAll()
+    fun findAll() = repository.findAll().toList()
 
     fun findById(id: Long) = repository.findById(id)
 
-    fun create(person: Person): Long {
-        val personSaved = repository.save(person)
-        return personSaved.id
+    fun create(person: Person): Person {
+        return repository.save(person)
     }
 }
