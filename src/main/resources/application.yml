@@ -1,3 +1,21 @@
 spring:
+  application:
+    name: 'sample-spring-boot-kotlin'
   main:
     banner-mode: "off"
+  kafka:
+    bootstrap-servers: localhost:19092
+    topic:
+      test: test
+    producer:
+      client-id: ${spring.application.name}
+      bootstrap-servers: ${spring.kafka.bootstrap-servers}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      client-id: ${spring.application.name}
+      group-id: ${spring.application.name}
+      bootstrap-servers: ${spring.kafka.bootstrap-servers}
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      auto-offset-reset: earliest

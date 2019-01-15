@@ -12,13 +12,21 @@ import org.springframework.stereotype.Service
  *
  */
 @Service
-class PersonService(private val repository: PersonRepository) {
+class PersonService(private val repository: PersonRepository,
+                    private val kafkaProducer: KafkaProducer) {
 
-    fun findAll() = repository.findAll().toList()
+    fun findAll() = this.repository.findAll().toList()
 
-    fun findById(id: Long) = repository.findById(id)
+    fun findById(id: Long) = this.repository.findById(id)
 
     fun create(person: Person): Person {
-        return repository.save(person)
+        val personSaved = this.repository.save(person)
+        this.kafkaProducer.create(personSaved)
+        return personSaved
+    }
+
+    fun update(person: Person): Person {
+        if (this.repository.existsById(person.id)) return this.repository.save(person)
+        throw Exception("Person is not found by id: " + person.id)
     }
 }
